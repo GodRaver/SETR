@@ -1,0 +1,39 @@
+int ledPin = 13;
+int piezoBuzzerPin = 10;
+int pirSensorPin = 2;
+float sinVal;
+int toneVal;
+int motionDetected = LOW;
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+  pinMode(pirSensorPin, INPUT);
+  pinMode(piezoBuzzerPin, OUTPUT);
+  Serial.begin(9600);
+  delay(5000);
+}
+
+void loop()
+{
+  motionDetected = digitalRead(pirSensorPin);
+  if(motionDetected == HIGH)
+  {
+    Serial.println("motion detected!");
+    digitalWrite(ledPin, HIGH);
+    	for(int x = 0; x<180; x++)
+        {
+          sinVal = (sin(x*(3.1412/180)));
+          toneVal = 1000+(int(sinVal*2000));
+          tone(piezoBuzzerPin, toneVal);
+          delay(1);
+        }
+  }
+  else
+  {
+    Serial.println("NO motion!");
+    digitalWrite(ledPin, LOW);
+    noTone(piezoBuzzerPin);
+    delay(200);
+  }
+}
