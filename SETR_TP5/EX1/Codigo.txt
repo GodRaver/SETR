@@ -1,0 +1,38 @@
+int LEDR = 11;
+int LEDG = 9;
+int LEDB = 10;
+int POTR = 0;
+int POTG = 1;
+int POTB = 2;
+
+void setup()
+{
+  pinMode(LEDR, OUTPUT);
+  pinMode(LEDG, OUTPUT);
+  pinMode(LEDB, OUTPUT);
+  
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  int R=analogRead(POTR)/4;
+  int G=analogRead(POTG)/4;
+  int B=analogRead(POTB)/4;
+
+  analogWrite(LEDR, R);
+  analogWrite(LEDG, G);
+  analogWrite(LEDB, B);
+  
+  Serial.print("Red = ");
+  Serial.print(R);
+  Serial.println();
+  Serial.print("Green = ");
+  Serial.print(G);
+  Serial.println();
+  Serial.print("Blue = ");
+  Serial.print(B);
+  Serial.println();
+  
+  delay(1000);
+}

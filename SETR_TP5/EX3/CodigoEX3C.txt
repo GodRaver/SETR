@@ -1,0 +1,76 @@
+#define A 8
+#define B 9
+#define C 4
+#define D 3
+#define E 2
+#define F 7
+#define G 6
+
+const int segmentPins[] = {A, B, C, D, E, F, G};
+
+const byte digitPatterns[][7] = {
+  {0, 0, 0, 0, 0, 0, 1},
+  {1, 0, 0, 1, 1, 1, 1},
+  {0, 0, 1, 0, 0, 1, 0},  
+  {0, 0, 0, 0, 1, 1, 0},
+  {1, 0, 0, 1, 1, 0, 0},
+  {0, 1, 0, 0, 1, 0, 0},
+  {0, 1, 0, 0, 0, 0, 0},
+  {0, 0, 0, 1, 1, 1, 1},
+  {0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 1, 0, 0},
+  {0, 0, 0, 1, 0, 0, 0},
+  {1, 1, 0, 0, 0, 0, 0},
+  {0, 1, 1, 0, 0, 0, 1},
+  {1, 0, 0, 0, 0, 1, 0},
+  {0, 1, 1, 0, 0, 0, 0},
+  {0, 1, 1, 1, 0, 0, 0},
+};
+
+void clearDisplay()
+{
+  for(int i = 0; i < 7; i++)
+  {
+    digitalWrite(segmentPins[i], HIGH);
+  }
+}
+
+void displayCharacter(byte character)
+{
+  clearDisplay();
+  for(int i = 0; i < 7; i++)
+  {
+    digitalWrite(segmentPins[i], digitPatterns[character][i]);
+  }
+}
+
+void loopDisplay()
+{
+  for(byte i = 0; i <= 0xF; i++)
+  {
+    displayCharacter(i);
+  }
+}
+
+void setup()
+{
+  for(int i = 0; i<7; i++)
+  {
+    pinMode(segmentPins[i], OUTPUT);
+  }
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  unsigned long timestamp = micros();
+  Serial.println("Starting\n");
+  loopDisplay();
+  
+  unsigned long timestamp2 = micros();
+  unsigned long end = timestamp2 - timestamp;
+
+  Serial.print("Time: ");
+  Serial.println(end);
+  delay(500);
+}
